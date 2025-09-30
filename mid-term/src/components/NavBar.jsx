@@ -1,28 +1,28 @@
 "use client";
+
 import Link from "next/link";
 
 export default function NavBar() {
+    const menuItems = [
+        { name: "Home", href: "/" },
+        { name: "Cart", href: "#" },
+        { name: "Account", href: "/profile" },
+    ];
+
     return (
-        <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
-            <div className="text-xl font-bold">MyApp</div>
-            <ul className="flex space-x-6">
-                <li>
-                    <Link href="/">Home</Link>
-                </li>
-                <li>
-                    <Link href="#">Dashboards</Link>
-                </li>
-                <li>
-                    <Link href="#">Cart</Link>
-                </li>
-                <li>
-                    <Link href="/profile">Account</Link>
-                </li>
-                <li>
-                    <Link href="#">Settings</Link>
-                </li>
+        <nav style={{ backgroundColor: "white", padding: "15px 0", width: "100%" }}>
+            <ul style={{ display: "flex", justifyContent: "center", listStyle: "none", margin: 0, padding: 0, gap: "40px" }}>
+                {menuItems.map(item => (
+                    <li key={item.name} style={{ whiteSpace: "nowrap" }}>
+                        <Link
+                            href={item.href}
+                            style={{ color: "black", fontWeight: "bold", textDecoration: "none" }}
+                        >
+                            {item.name}
+                        </Link>
+                    </li>
+                ))}
             </ul>
         </nav>
     );
 }
-

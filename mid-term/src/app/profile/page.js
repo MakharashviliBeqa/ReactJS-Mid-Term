@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 
 async function getUser() {
@@ -11,25 +10,56 @@ export default async function ProfilePage() {
     const user = await getUser();
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="flex items-center gap-6 bg-white p-6 rounded shadow-lg max-w-2xl">
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100vh",
+                backgroundColor: "#f0f0f0",
+            }}
+        >
+            <div
+                style={{
+                    marginTop: "20px",
+                    padding: "20px",
+                    backgroundColor: "white",
+                    borderRadius: "10px",
+                    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "20px",
+                    maxWidth: "672px",
+                }}
+            >
                 <Image
                     src="/cute-cat.jpg"
                     alt="User Avatar"
                     width={300}
                     height={300}
-                    className="rounded-full object-cover"
+                    style={{ borderRadius: "50%", objectFit: "cover" }}
                 />
 
-                <div className="flex flex-col justify-center">
-                    <h1 className="text-2xl font-bold mb-2">
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                    }}
+                >
+                    <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "10px", color: "black" }}>
                         {user.name.firstname} {user.name.lastname}
                     </h1>
-                    <p><strong>Email:</strong> {user.email}</p>
-                    <p><strong>Phone:</strong> {user.phone}</p>
-                    <p>
-                        <strong>Address:</strong> {user.address.number} {user.address.street},{" "}
-                        {user.address.city}, {user.address.zipcode}
+                    <p style={{ color: "black" }}>
+                        <strong>Email:</strong> {user.email}
+                    </p>
+
+                    <p style={{ color: "black" }}>
+                        <strong>Phone:</strong> {user.phone}
+                    </p>
+
+                    <p style={{ color: "black" }}>
+                        <strong>Address:</strong> {user.address.number} {user.address.street}, {user.address.city}, {user.address.zipcode}
                     </p>
                 </div>
             </div>
