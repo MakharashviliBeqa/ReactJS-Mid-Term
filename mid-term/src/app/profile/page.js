@@ -15,13 +15,12 @@ export default async function ProfilePage() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                minHeight: "100vh",
-                backgroundColor: "#f0f0f0",
+                minHeight: "87vh",
+                backgroundColor: "#fbfafa",
             }}
         >
             <div
                 style={{
-                    marginTop: "20px",
                     padding: "20px",
                     backgroundColor: "white",
                     borderRadius: "10px",

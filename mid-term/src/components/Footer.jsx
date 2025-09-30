@@ -1,15 +1,29 @@
 export default function Footer() {
     return (
-        <footer className="bg-gray-800 text-white p-4">
-            <div className="flex justify-between items-center w-full max-w-6xl mx-auto">
-                <div className="flex items-center gap-6">
+        <footer
+            style={{
+                backgroundColor: "#f2f2f2",
+                color: "black",
+                padding: "20px",
+            }}
+        >
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    maxWidth: "1200px",
+                    margin: "0 auto",
+                }}
+            >
+                <div style={{ display: "flex", gap: "20px" }}>
                     <span>Conditions to Use</span>
                     <span>Privacy Notice</span>
                     <span>Interest-based Ads</span>
                 </div>
 
-                <div className="text-sm">
-                    &copy; {new Date().getFullYear()} MyApp. All rights reserved.
+                <div>
+                    &copy; 1996-2021, Amazon.com,Inc. or its affiliates
                 </div>
             </div>
         </footer>
