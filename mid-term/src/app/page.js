@@ -10,9 +10,23 @@ export default async function HomePage() {
     const products = await getProducts();
 
     return (
-        <div style={{ padding: "20px", margin: "0 auto", backgroundColor: "#fbfafa" }}>
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", justifyContent: "center", marginTop: "30px" }}>
+        <div
+            style={{
+                padding: "20px",
+                margin: "0 auto",
+                backgroundColor: "#fbfafa",
+                minHeight: "100vh",
+            }}
+        >
+            <div
+                style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "20px",
+                    justifyContent: "center",
+                    marginTop: "30px",
+                }}
+            >
                 {products.map((product) => (
                     <div
                         key={product.id}
@@ -22,6 +36,8 @@ export default async function HomePage() {
                             textAlign: "left",
                             backgroundColor: "#f2f2f2",
                             color: "black",
+                            borderRadius: "10px",
+                            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
                         }}
                     >
                         <Image
@@ -32,11 +48,15 @@ export default async function HomePage() {
                             style={{ objectFit: "contain", marginBottom: "10px" }}
                         />
                         <h2 style={{ fontSize: "15px", marginBottom: "5px" }}>{product.title}</h2>
-                        <p style={{ fontWeight: "bold", fontSize: "25"}}>${product.price}</p>
+
+                        <p style={{ margin: "0 0 5px 0", fontWeight: "bold" }}>
+                            ⭐ {product.rating.rate} ({product.rating.count} reviews)
+                        </p>
+
+                        <p style={{ fontWeight: "bold", fontSize: "18px", margin: 0 }}>${product.price}</p>
                     </div>
                 ))}
             </div>
         </div>
     );
 }
-
