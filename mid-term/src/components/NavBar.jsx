@@ -16,7 +16,7 @@ export default function NavBar() {
                     <li key={item.name} style={{ whiteSpace: "nowrap" }}>
                         <Link
                             href={item.href}
-                            style={{ color: "black", fontWeight: "bold", textDecoration: "none" }}
+                            style={{ color: "black", fontWeight: "bold", textDecoration: "none"  }}
                         >
                             {item.name}
                         </Link>

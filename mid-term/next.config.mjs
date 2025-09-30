@@ -1,6 +1,6 @@
 const nextConfig = {
     images: {
-        domains: ["fakestoreapi.com"], // <-- add this line
+        domains: ["fakestoreapi.com"],
     },
 };
 
