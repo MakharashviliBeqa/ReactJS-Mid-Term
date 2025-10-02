@@ -36,7 +36,6 @@ export default async function HomePage() {
                             textAlign: "left",
                             backgroundColor: "#f2f2f2",
                             color: "black",
-                            borderRadius: "10px",
                             boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
                         }}
                     >
