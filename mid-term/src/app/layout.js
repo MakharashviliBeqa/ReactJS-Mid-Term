@@ -1,20 +1,18 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./home/HomePage.module.css";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+    variable: "--font-geist-sans",
+    subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
-
-
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
+import NavBar from "../components/navbar/NavBar";
+import Footer from "../components/footer/Footer";
 
 export const metadata = {
     title: "MyApp",
@@ -23,9 +21,26 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-        <body className="flex flex-col min-h-screen">
+        <body
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+                backgroundColor: "white",
+                margin: 0,
+                fontFamily: "var(--font-geist-sans, sans-serif)",
+            }}
+        >
         <NavBar />
-        <main className="flex-1 p-6 bg-gray-100">{children}</main>
+        <main
+            style={{
+                flex: 1,
+                padding: "24px",
+                backgroundColor: "white",
+            }}
+        >
+            {children}
+        </main>
         <Footer />
         </body>
         </html>

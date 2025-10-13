@@ -16,6 +16,69 @@
   font-family: var(--font-geist-sans);
 }
 
+.container {
+    min-height: 100vh;
+    background-color: white;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    color: black;
+}
+
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+.title {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+.itemList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background-color: white;
+    color: black;
+}
+
+.image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+.name {
+    flex: 1;
+    margin-left: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin: 0 16px;
+    color: black;
+    background-color: white;
+}
+
+.price {
+    font-weight: 600;
+}
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
@@ -107,7 +170,6 @@ a.secondary {
   flex-shrink: 0;
 }
 
-/* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
     background: var(--button-primary-hover);
