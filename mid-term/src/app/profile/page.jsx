@@ -1,124 +1,109 @@
 "use client";
 
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import styles from "./ProfilePage.module.css";
+
+// Single line comment: Formik + Yup login/register page with validation and remember me
+
+const validationSchema = Yup.object({
+    username: Yup.string().required("Username is required"),
+    password: Yup.string().required("Password is required"),
+});
 
 export default function ProfilePage() {
     const router = useRouter();
-    const [user, setUser] = useState(null);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
+    const [loggedInUser, setLoggedInUser] = useState(null);
 
+    // Load logged in user from localStorage if Remember Me was checked
     useEffect(() => {
-        // es amowmebs ari tu ara useri shesuli ukve
-        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-        if (loggedInUser) {
-            setUser(loggedInUser);
+        const storedUser = localStorage.getItem("loggedInUser");
+        if (storedUser) {
+            setLoggedInUser(JSON.parse(storedUser));
         }
     }, []);
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        setError("");
-
-        const users = JSON.parse(localStorage.getItem("users")) || [];
-        const matchedUser = users.find(
-            (u) => u.username === username && u.password === password
-        );
-
-        if (matchedUser) {
-            setUser(matchedUser);
-
-            if (rememberMe) {
-                localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
-            }
-
-            setUsername("");
-            setPassword("");
-        } else {
-            setError("Invalid username or password");
-        }
-    };
-
     const handleLogout = () => {
-        setUser(null);
+        setLoggedInUser(null);
         localStorage.removeItem("loggedInUser");
     };
 
-    return (
-        <div className={styles.page}>
-            {!user ? (
-                <form onSubmit={handleLogin} className={styles.card}>
-                    <h2 className={styles.title}>Login</h2>
-
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        className={styles.input}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className={styles.input}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-
-                    <div className={styles.remember}>
-                        <input
-                            type="checkbox"
-                            id="rememberMe"
-                            checked={rememberMe}
-                            onChange={(e) => setRememberMe(e.target.checked)}
-                        />
-                        <label htmlFor="rememberMe">Remember me</label>
-                    </div>
-
-                    {error && <p className={styles.error}>{error}</p>}
-
-                    <button type="submit" className={styles.button}>
-                        Login
-                    </button>
-
-                    <p className={styles.registerText}>
-                        Don’t have an account? <a href="/register">Register here</a>
-                    </p>
-                </form>
-            ) : (
+    if (loggedInUser) {
+        // Show profile info
+        return (
+            <div className={styles.page}>
                 <div className={styles.card}>
-                    <Image
-                        src="/cute-cat.jpg"
-                        alt="User Avatar"
-                        width={120}
-                        height={120}
-                        className={styles.avatar}
-                    />
-                    <div className={styles.userInfo}>
-                        <h3 className={styles.userText}>
-                            {user.firstname} {user.lastname}
-                        </h3>
-                        <p className={styles.userText}>
-                            <strong>Email:</strong> {user.email}
-                        </p>
-                        <p className={styles.userText}>
-                            <strong>Phone:</strong> {user.phone}
-                        </p>
-                    </div>
-
+                    <h2 className={styles.title}>Welcome, {loggedInUser.username}!</h2>
+                    <p>Email: {loggedInUser.email}</p>
+                    <p>Firstname: {loggedInUser.firstname}</p>
+                    <p>Lastname: {loggedInUser.lastname}</p>
                     <button onClick={handleLogout} className={styles.logoutBtn}>
                         Logout
                     </button>
                 </div>
-            )}
+            </div>
+        );
+    }
+
+    // Login form
+    return (
+        <div className={styles.page}>
+            <div className={styles.card}>
+                <h2 className={styles.title}>Login</h2>
+
+                <Formik
+                    initialValues={{ username: "", password: "", rememberMe: false }}
+                    validationSchema={validationSchema}
+                    onSubmit={(values, { setSubmitting }) => {
+                        const users = JSON.parse(localStorage.getItem("users")) || [];
+                        const matchedUser = users.find(
+                            (u) => u.username === values.username && u.password === values.password
+                        );
+
+                        if (matchedUser) {
+                            if (values.rememberMe) {
+                                localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+                            }
+                            setLoggedInUser(matchedUser);
+                        } else {
+                            alert("Invalid username or password");
+                        }
+
+                        setSubmitting(false);
+                    }}
+                >
+                    {({ isSubmitting, values, setFieldValue }) => (
+                        <Form className={styles.form}>
+                            <Field className={styles.input} name="username" placeholder="Username" />
+                            <ErrorMessage name="username" component="div" className={styles.error} />
+
+                            <Field className={styles.input} name="password" placeholder="Password" type="password" />
+                            <ErrorMessage name="password" component="div" className={styles.error} />
+
+                            <div className={styles.remember}>
+                                <input
+
+                                    type="checkbox"
+                                    id="rememberMe"
+                                    checked={values.rememberMe}
+                                    onChange={() => setFieldValue("rememberMe", !values.rememberMe)}
+                                />
+                                <label htmlFor="rememberMe">Remember me</label>
+                            </div>
+
+                            <button type="submit" className={styles.button} disabled={isSubmitting}>
+                                {isSubmitting ? "Logging in..." : "Login"}
+                            </button>
+                        </Form>
+                    )}
+                </Formik>
+
+                <p className={styles.registerText}>
+                    Don’t have an account? <a href="/register" className={styles.registerLink}>Register here</a>
+                </p>
+            </div>
         </div>
     );
 }

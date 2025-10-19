@@ -1,129 +1,81 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import styles from "./RegisterPage.module.css";
+
+const validationSchema = Yup.object({
+    firstname: Yup.string().required("First name is required"),
+    lastname: Yup.string().required("Last name is required"),
+    username: Yup.string().required("Username is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+    phone: Yup.string().required("Phone number is required"),
+});
 
 export default function RegisterPage() {
     const router = useRouter();
 
-    const [form, setForm] = useState({
-        email: "",
-        username: "",
-        password: "",
-        firstname: "",
-        lastname: "",
-        phone: "",
-    });
-
-    const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
-
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        setMessage("");
-        setLoading(true);
-
-        try {
-            // inaxavs userebs localurad
-            const users = JSON.parse(localStorage.getItem("users")) || [];
-
-            const newUser = { ...form };
-            users.push(newUser);
-            localStorage.setItem("users", JSON.stringify(users));
-
-            setMessage(" Account created successfully!");
-            setTimeout(() => router.push("/profile"), 1500);
-        } catch (err) {
-            console.error(err);
-            setMessage(" Error creating account. Try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
         <div className={styles.page}>
-            <form className={styles.card} onSubmit={handleRegister}>
+            <div className={styles.card}>
                 <h2 className={styles.title}>Create Account</h2>
 
-                <input
-                    type="text"
-                    name="firstname"
-                    placeholder="First Name"
-                    value={form.firstname}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                />
+                <Formik
+                    initialValues={{
+                        firstname: "",
+                        lastname: "",
+                        username: "",
+                        email: "",
+                        password: "",
+                        phone: "",
+                    }}
 
-                <input
-                    type="text"
-                    name="lastname"
-                    placeholder="Last Name"
-                    value={form.lastname}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                />
+                    validationSchema={validationSchema}
+                    onSubmit={(values, { setSubmitting }) => {
+                        // amas moaqvs informacia ukve arsebuli userebidan
+                        const users = JSON.parse(localStorage.getItem("users")) || [];
+                        // amatebs es axal userebs
+                        users.push(values);
+                        localStorage.setItem("users", JSON.stringify(users));
 
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={form.username}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                />
+                        alert("Account created successfully!");
+                        setSubmitting(false);
+                        router.push("/profile");
+                    }}
+                >
+                    {({ isSubmitting }) => (
+                        <Form className={styles.form}>
+                            <Field className={styles.input} name="firstname" placeholder="First Name" />
+                            <ErrorMessage name="firstname" component="div" className={styles.error} />
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                />
+                            <Field className={styles.input} name="lastname" placeholder="Last Name" />
+                            <ErrorMessage name="lastname" component="div" className={styles.error} />
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={form.password}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                />
+                            <Field className={styles.input} name="username" placeholder="Username" />
+                            <ErrorMessage name="username" component="div" className={styles.error} />
 
-                <input
-                    type="text"
-                    name="phone"
-                    placeholder="Phone Number"
-                    value={form.phone}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                />
+                            <Field className={styles.input} name="email" placeholder="Email" type="email" />
+                            <ErrorMessage name="email" component="div" className={styles.error} />
 
-                {message && <p className={styles.message}>{message}</p>}
+                            <Field className={styles.input} name="password" placeholder="Password" type="password" />
+                            <ErrorMessage name="password" component="div" className={styles.error} />
 
-                <button type="submit" className={styles.button} disabled={loading}>
-                    {loading ? "Registering..." : "Register"}
-                </button>
+                            <Field className={styles.input} name="phone" placeholder="Phone" />
+                            <ErrorMessage name="phone" component="div" className={styles.error} />
 
-                <p className={styles.loginText}>
-                    Already have an account?{" "}
-                    <a href="/profile" className={styles.link}>
-                        Login
-                    </a>
+                            <button type="submit" className={styles.button} disabled={isSubmitting}>
+                                {isSubmitting ? "Registering..." : "Register"}
+                            </button>
+                        </Form>
+                    )}
+                </Formik>
+
+                <p className={styles.registerText}>
+                    Already have an account? <a href="/profile" className={styles.registerLink}>Login here</a>
                 </p>
-            </form>
+            </div>
         </div>
     );
 }

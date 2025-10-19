@@ -1,62 +1,80 @@
-html, body, #__next {
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fbfafa;
 }
 
 .page {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #fbfafa;
+    height: 100vh;
 }
 
 .card {
-    background-color: white;
-    padding: 24px;
+    background-color: #fff;
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 340px;
-    color: black;
+    width: 360px;
 }
 
 .title {
     font-size: 24px;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
 .input {
-    width: 90%;
-    padding: 10px;
+    width: 100%;
+    padding: 12px;
     margin-bottom: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
 .message {
     margin-bottom: 12px;
     font-weight: bold;
+    color: green;
+}
+
+.error {
+    margin-bottom: 12px;
+    font-weight: bold;
+    color: red;
 }
 
 .button {
-    background-color: #22c55e;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 10px;
+    padding: 12px;
     cursor: pointer;
-    width: 90%;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.registerText {
+    margin-top: 16px;
+    font-size: 14px;
+    color: black;
+}
+
+.registerText a {
+    color: black;
+    text-decoration: none;
     font-weight: bold;
 }
 
-.loginText {
-    margin-top: 16px;
-    font-size: 14px;
-}
-
-.link {
-    color: blue;
+.registerText a:hover {
     text-decoration: underline;
 }
