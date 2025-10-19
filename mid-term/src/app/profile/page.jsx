@@ -2,68 +2,58 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./ProfilePage.module.css";
 
 export default function ProfilePage() {
+    const router = useRouter();
     const [user, setUser] = useState(null);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
-    async function loginUser(username, password) {
-        const res = await fetch("https://fakestoreapi.com/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                username,
-                password,
-            }),
-        });
-
-        if (!res.ok) throw new Error("Login failed");
-        return res.json();
-    }
-
-    async function fetchUserData() {
-        const res = await fetch("https://fakestoreapi.com/users/3");
-        const data = await res.json();
-        return data;
-    }
+    const [rememberMe, setRememberMe] = useState(false);
 
     useEffect(() => {
-        const savedUser = localStorage.getItem("user");
-        if (savedUser) {
-            setUser(JSON.parse(savedUser));
+        // es amowmebs ari tu ara useri shesuli ukve
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        if (loggedInUser) {
+            setUser(loggedInUser);
         }
     }, []);
 
-    const handleLogin = async (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         setError("");
 
-        try {
-            const data = await loginUser(username, password);
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const matchedUser = users.find(
+            (u) => u.username === username && u.password === password
+        );
 
-            if (data.token) {
-                const userData = await fetchUserData();
-                setUser(userData);
-                localStorage.setItem("user", JSON.stringify(userData));
+        if (matchedUser) {
+            setUser(matchedUser);
+
+            if (rememberMe) {
+                localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
             }
-        } catch {
+
+            setUsername("");
+            setPassword("");
+        } else {
             setError("Invalid username or password");
         }
     };
 
     const handleLogout = () => {
         setUser(null);
-        localStorage.removeItem("user");
+        localStorage.removeItem("loggedInUser");
     };
 
     return (
         <div className={styles.page}>
             {!user ? (
                 <form onSubmit={handleLogin} className={styles.card}>
-                    <h2 style={{ color: "black" }}>Login</h2>
+                    <h2 className={styles.title}>Login</h2>
 
                     <input
                         type="text"
@@ -71,6 +61,7 @@ export default function ProfilePage() {
                         className={styles.input}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
 
                     <input
@@ -79,13 +70,28 @@ export default function ProfilePage() {
                         className={styles.input}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
+
+                    <div className={styles.remember}>
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                        />
+                        <label htmlFor="rememberMe">Remember me</label>
+                    </div>
 
                     {error && <p className={styles.error}>{error}</p>}
 
                     <button type="submit" className={styles.button}>
                         Login
                     </button>
+
+                    <p className={styles.registerText}>
+                        Don’t have an account? <a href="/register">Register here</a>
+                    </p>
                 </form>
             ) : (
                 <div className={styles.card}>
@@ -98,7 +104,7 @@ export default function ProfilePage() {
                     />
                     <div className={styles.userInfo}>
                         <h3 className={styles.userText}>
-                            {user.name.firstname} {user.name.lastname}
+                            {user.firstname} {user.lastname}
                         </h3>
                         <p className={styles.userText}>
                             <strong>Email:</strong> {user.email}

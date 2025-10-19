@@ -1,0 +1,50 @@
+.container {
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #fbfafa;
+    min-height: 100vh;
+}
+
+.productsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.card {
+    padding: 15px;
+    width: 220px;
+    text-align: left;
+    background-color: #ffffff;
+    color: black;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.image {
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.rating {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+
+.price {
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0;
+}
+
+.loading {
+    padding: 40px;
+    text-align: center;
+}
