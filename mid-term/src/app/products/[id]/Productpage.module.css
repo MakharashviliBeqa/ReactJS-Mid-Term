@@ -1,0 +1,83 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: #f8f8f8;
+    min-height: 100vh;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+.image {
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+}
+
+.category {
+    font-size: 16px;
+    color: #666;
+}
+
+.description {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.rating {
+    font-size: 16px;
+    color: #555;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    padding: 40px;
+}
+
+.backButton {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: #000;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    width: fit-content;
+    transition: background 0.2s ease;
+}
+
+.backButton:hover {
+    background-color: #333;
+}

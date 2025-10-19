@@ -6,8 +6,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "./ProfilePage.module.css";
 
-// Single line comment: Formik + Yup login/register page with validation and remember me
-
 const validationSchema = Yup.object({
     username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
@@ -17,7 +15,7 @@ export default function ProfilePage() {
     const router = useRouter();
     const [loggedInUser, setLoggedInUser] = useState(null);
 
-    // Load logged in user from localStorage if Remember Me was checked
+    // chatvirtos tu ukve shesulia
     useEffect(() => {
         const storedUser = localStorage.getItem("loggedInUser");
         if (storedUser) {
@@ -31,7 +29,6 @@ export default function ProfilePage() {
     };
 
     if (loggedInUser) {
-        // Show profile info
         return (
             <div className={styles.page}>
                 <div className={styles.card}>
@@ -47,7 +44,6 @@ export default function ProfilePage() {
         );
     }
 
-    // Login form
     return (
         <div className={styles.page}>
             <div className={styles.card}>
